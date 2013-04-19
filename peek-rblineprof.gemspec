@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Peek::Rblineprof::VERSION
   spec.authors       = ['Garrett Bjerkhoel']
   spec.email         = ['me@garrettbjerkhoel.com']
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ''
+  spec.description   = %q{Peek into how much each line of your Rails application takes throughout a request.}
+  spec.summary       = %q{Peek into how much each line of your Rails application takes throughout a request.}
+  spec.homepage      = 'https://github.com/peek/peek-rblineprof'
   spec.license       = 'MIT'
 
   spec.files         = `git ls-files`.split($/)
