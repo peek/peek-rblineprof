@@ -57,17 +57,22 @@ module Peek
 
           output = ''
           per_file.each do |file_name, lines, file_wall, file_cpu, file_idle, file_sort|
+            output << "<div class='peek-rblineprof-file'><div class='heading'>"
+
             show_src = file_sort > min
             tmpl = show_src ? "<a href='#' class='js-lineprof-file'>%s</a>" : "%s"
 
             if mode == 'cpu'
-              output << sprintf("% 8.1fms + % 8.1fms   #{tmpl}\n", file_cpu / 1000.0, file_idle / 1000.0, file_name.sub(Rails.root.to_s + '/', ''))
+              output << sprintf("<span class='duration'>% 8.1fms + % 8.1fms</span> #{tmpl}\n", file_cpu / 1000.0, file_idle / 1000.0, file_name.sub(Rails.root.to_s + '/', ''))
             else
-              output << sprintf("% 8.1fms   #{tmpl}\n", file_wall/1000.0, file_name.sub(Rails.root.to_s + '/', ''))
+              output << sprintf("<span class='duration'>% 8.1fms</span> #{tmpl}\n", file_wall/1000.0, file_name.sub(Rails.root.to_s + '/', ''))
             end
+
+            output << "</div>"
 
             next unless show_src
 
+            output << "<pre style='overflow-x: scroll'>"
             File.readlines(file_name).each_with_index do |line, i|
               wall, cpu, calls = lines[i + 1]
 
@@ -86,9 +91,10 @@ module Peek
                 end
               end
             end
+            output << "</pre></div>"
           end
 
-          response.body += "<div style='display: none' id='line-profile'><pre style='overflow-x: scroll'>#{output}</pre></div>".html_safe
+          response.body += "<div class='peek-rblineprof-modal' id='line-profile'>#{output}</div>".html_safe
         end
 
         ret

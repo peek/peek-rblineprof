@@ -1,0 +1,36 @@
+.peek-rblineprof-modal {
+  width: 900px;
+  position: absolute;
+  z-index: 10000;
+  left: 50%;
+  margin-left: -450px;
+
+  pre {
+    font-family: monospace;
+  }
+}
+
+.peek-rblineprof-file {
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  margin-bottom: 10px;
+
+  .heading {
+    background: #333;
+    color: #aaa;
+    padding: 10px 15px;
+    text-shadow: 0 1px 0 #000;
+
+    .duration {
+      margin: 0 65px 0 40px;
+    }
+
+    a {
+      color: #fff;
+    }
+  }
+
+  pre {
+    padding: 15px;
+  }
+}
