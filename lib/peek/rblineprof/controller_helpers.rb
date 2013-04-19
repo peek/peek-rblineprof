@@ -68,26 +68,24 @@ module Peek
 
             next unless show_src
 
-            output << "<div style='display:none'>"
             File.readlines(file_name).each_with_index do |line, i|
               wall, cpu, calls = lines[i + 1]
 
               if calls && calls > 0
                 if mode == 'cpu'
                   idle = wall - cpu
-                  output << sprintf("% 8.1fms + % 8.1fms (% 5d) | %s", cpu / 1000.0, idle / 1000.0, calls, line)
+                  output << sprintf("% 8.1fms + % 8.1fms (% 5d) | %s", cpu / 1000.0, idle / 1000.0, calls, Rack::Utils.escape_html(line))
                 else
-                  output << sprintf("% 8.1fms (% 5d) | %s", wall / 1000.0, calls, line)
+                  output << sprintf("% 8.1fms (% 5d) | %s", wall / 1000.0, calls, Rack::Utils.escape_html(line))
                 end
               else
                 if mode == 'cpu'
-                  output << sprintf("                                | %s", line)
+                  output << sprintf("                                | %s", Rack::Utils.escape_html(line))
                 else
-                  output << sprintf("                   | %s", line)
+                  output << sprintf("                   | %s", Rack::Utils.escape_html(line))
                 end
               end
             end
-            output << "</div>"
           end
 
           response.body += "<div style='display: none' id='line-profile'><pre style='overflow-x: scroll'>#{output}</pre></div>".html_safe
