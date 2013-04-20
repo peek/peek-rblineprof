@@ -92,9 +92,9 @@ module Peek
             tmpl = show_src ? "<a href='#' class='js-lineprof-file'>%s</a>" : "%s"
 
             if mode == 'cpu'
-              output << sprintf("<span class='duration'>% 8.1fms + % 8.1fms</span> #{tmpl}\n", file_cpu / 1000.0, file_idle / 1000.0, file_name.sub(Rails.root.to_s + '/', ''))
+              output << sprintf("<span class='duration'>% 8.1fms + % 8.1fms</span> #{tmpl}", file_cpu / 1000.0, file_idle / 1000.0, file_name.sub(Rails.root.to_s + '/', ''))
             else
-              output << sprintf("<span class='duration'>% 8.1fms</span> #{tmpl}\n", file_wall/1000.0, file_name.sub(Rails.root.to_s + '/', ''))
+              output << sprintf("<span class='duration'>% 8.1fms</span> #{tmpl}", file_wall/1000.0, file_name.sub(Rails.root.to_s + '/', ''))
             end
 
             output << "</div>" # .heading
