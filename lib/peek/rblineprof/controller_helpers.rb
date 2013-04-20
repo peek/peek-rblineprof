@@ -37,7 +37,7 @@ module Peek
 
         if response.content_type =~ %r|text/html|
           sort = params[:lineprofiler_sort]
-          mode = params[:lineprofiler_mode]
+          mode = params[:lineprofiler_mode] || 'cpu'
           min  = (params[:lineprofiler_min] || 5).to_i * 1000
           summary = params[:lineprofiler_summary]
 
