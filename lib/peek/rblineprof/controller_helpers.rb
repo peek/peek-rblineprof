@@ -1,3 +1,9 @@
+begin
+  require 'pygments.rb'
+rescue LoadError
+  # Doesn't have pygments.rb installed
+end
+
 module Peek
   module Rblineprof
     module ControllerHelpers
@@ -9,13 +15,32 @@ module Peek
 
       protected
 
+      def pygmentize?
+        defined?(Pygments)
+      end
+
+      def pygmentize(file_name, code, lexer = nil)
+        if pygmentize? && lexer.present?
+          Pygments.highlight(code, :lexer => lexer_for_filename(file_name))
+        else
+          code
+        end
+      end
+
       def rblineprof_enabled?
         params[:lineprofiler].present?
       end
 
-      def inject_rblineprof
+      def lexer_for_filename(file_name)
+        case file_name
+        when /\.rb$/ then 'ruby'
+        when /\.erb$/ then 'erb'
+        end
+      end
+
+      def rblineprof_profiler_regex
         escaped_rails_root = Regexp.escape(Rails.root.to_s)
-        regex = case params[:lineprofiler]
+        case params[:lineprofiler]
         when 'app'
           %r{^#{escaped_rails_root}/(app|lib)}
         when 'views'
@@ -29,9 +54,11 @@ module Peek
         else
           %r{^#{escaped_rails_root}/(app|config|lib|vendor/plugin)}
         end
+      end
 
+      def inject_rblineprof
         ret = nil
-        profile = lineprof(regex) do
+        profile = lineprof(rblineprof_profiler_regex) do
           ret = yield
         end
 
@@ -41,12 +68,13 @@ module Peek
           min  = (params[:lineprofiler_min] || 5).to_i * 1000
           summary = params[:lineprofiler_summary]
 
+          # Sort each file by the longest calculated time
           per_file = profile.map do |file, lines|
             total, child, excl, total_cpu, child_cpu, excl_cpu = lines[0]
 
             wall = summary == 'exclusive' ? excl : total
             cpu  = summary == 'exclusive' ? excl_cpu : total_cpu
-            idle = summary == 'exclusive' ? (excl-excl_cpu) : (total-total_cpu)
+            idle = summary == 'exclusive' ? (excl - excl_cpu) : (total - total_cpu)
 
             [
               file, lines,
@@ -57,7 +85,9 @@ module Peek
 
           output = ''
           per_file.each do |file_name, lines, file_wall, file_cpu, file_idle, file_sort|
+
             output << "<div class='peek-rblineprof-file'><div class='heading'>"
+            times = []
 
             show_src = file_sort > min
             tmpl = show_src ? "<a href='#' class='js-lineprof-file'>%s</a>" : "%s"
@@ -72,26 +102,29 @@ module Peek
 
             next unless show_src
 
-            output << "<pre style='overflow-x: scroll'>"
+            output << "<div class='data'>"
+            code = ''
             File.readlines(file_name).each_with_index do |line, i|
+              code << line
               wall, cpu, calls = lines[i + 1]
 
               if calls && calls > 0
                 if mode == 'cpu'
                   idle = wall - cpu
-                  output << sprintf("% 8.1fms + % 8.1fms (% 5d) | %s", cpu / 1000.0, idle / 1000.0, calls, Rack::Utils.escape_html(line))
+                  times << sprintf("% 8.1fms + % 8.1fms (% 5d)", cpu / 1000.0, idle / 1000.0, calls)
                 else
-                  output << sprintf("% 8.1fms (% 5d) | %s", wall / 1000.0, calls, Rack::Utils.escape_html(line))
+                  times << sprintf("% 8.1fms (% 5d)", wall / 1000.0, calls)
                 end
               else
-                if mode == 'cpu'
-                  output << sprintf("                                | %s", Rack::Utils.escape_html(line))
-                else
-                  output << sprintf("                   | %s", Rack::Utils.escape_html(line))
-                end
+                times << ''
               end
             end
-            output << "</pre></div>"
+            output << "<pre class='duration'>"
+            output << times.join("\n")
+            output << "</pre>"
+            output << "<div class='code'>"
+            output << pygmentize(file_name, code, 'ruby')
+            output << "</div></div></div>"
           end
 
           response.body += "<div class='peek-rblineprof-modal' id='line-profile'>#{output}</div>".html_safe

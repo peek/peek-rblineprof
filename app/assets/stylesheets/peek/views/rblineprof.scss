@@ -5,7 +5,8 @@
   left: 50%;
   margin-left: -450px;
 
-  pre {
+  pre,
+  pre span {
     font: 12px/18px monospace;
   }
 }
@@ -53,7 +54,21 @@
     }
   }
 
+  .data {
+    overflow: hidden;
+  }
+
+  .code {
+    overflow-x: scroll;
+    border-left: 1px solid #ccc;
+  }
+
   pre {
     padding: 15px;
+
+    &.duration {
+      float: left;
+      width: 230px;
+    }
   }
 }
