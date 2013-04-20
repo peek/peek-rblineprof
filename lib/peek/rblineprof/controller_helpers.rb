@@ -87,7 +87,6 @@ module Peek
           per_file.each do |file_name, lines, file_wall, file_cpu, file_idle, file_sort|
 
             output << "<div class='peek-rblineprof-file'><div class='heading'>"
-            times = []
 
             show_src = file_sort > min
             tmpl = show_src ? "<a href='#' class='js-lineprof-file'>%s</a>" : "%s"
@@ -98,12 +97,13 @@ module Peek
               output << sprintf("<span class='duration'>% 8.1fms</span> #{tmpl}\n", file_wall/1000.0, file_name.sub(Rails.root.to_s + '/', ''))
             end
 
-            output << "</div>"
+            output << "</div>" # .heading
 
             next unless show_src
 
             output << "<div class='data'>"
-            code = ''
+            code = []
+            times = []
             File.readlines(file_name).each_with_index do |line, i|
               code << line
               wall, cpu, calls = lines[i + 1]
@@ -116,15 +116,12 @@ module Peek
                   times << sprintf("% 8.1fms (% 5d)", wall / 1000.0, calls)
                 end
               else
-                times << ''
+                times << ' '
               end
             end
-            output << "<pre class='duration'>"
-            output << times.join("\n")
-            output << "</pre>"
-            output << "<div class='code'>"
-            output << pygmentize(file_name, code, 'ruby')
-            output << "</div></div></div>"
+            output << "<pre class='duration'>#{times.join("\n")}</pre>"
+            output << "<div class='code'>#{pygmentize(file_name, code.join, 'ruby')}</div>"
+            output << "</div></div>" # .data then .peek-rblineprof-file
           end
 
           response.body += "<div class='peek-rblineprof-modal' id='line-profile'>#{output}</div>".html_safe
