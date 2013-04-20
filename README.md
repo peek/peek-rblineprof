@@ -37,6 +37,22 @@ Add the following to your `config/initializers/peek.rb`:
 Peek.into Peek::Views::Rblineconf
 ```
 
+You'll then need to add the following CSS and CoffeeScript:
+
+CSS:
+
+```scss
+//= require peek
+//= require peek/views/rblineprof
+```
+
+CoffeeScript:
+
+```coffeescript
+#= require peek
+#= require peek/views/rblineprof
+```
+
 ## Contributors
 
 - [@tmm1](https://github.com/tmm1) Wrote rblineprof
