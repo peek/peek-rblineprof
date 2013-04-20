@@ -34,7 +34,7 @@ Or install it yourself as:
 Add the following to your `config/initializers/peek.rb`:
 
 ```ruby
-Peek.into Peek::Views::Rblineconf
+Peek.into Peek::Views::Rblineprof
 ```
 
 You'll then need to add the following CSS and CoffeeScript:
