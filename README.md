@@ -53,10 +53,31 @@ CoffeeScript:
 #= require peek/views/rblineprof
 ```
 
+## Integration with pygments.rb
+
+By default peek-rblineprof renders the code of each file in plain text with no
+syntax highlighting for performance reasons. If you'd like to have your code
+highlighted as it does on GitHub.com, just include the [pygments.rb](https://github.com/tmm1/pygments.rb) gem:
+
+```ruby
+gem 'pygments.rb', :require => false
+```
+
+peek-rblineprof will now highlight each file for you, but there's one more thing...
+
+To use the default theme that peek-rblineprof provides just add the following
+to your peek specific or application stylesheet:
+
+```scss
+//= require peek/views/rblineprof/pygments
+```
+
+That's it! Now your code will look :sparkles:
+
 ## Contributors
 
-- [@tmm1](https://github.com/tmm1) Wrote rblineprof
-- [@dewski](https://github.com/dewski) Wrote peek-rblineprof
+- [@tmm1](https://github.com/tmm1) wrote rblineprof
+- [@dewski](https://github.com/dewski) wrote peek-rblineprof
 
 ## Contributing
 
