@@ -1,4 +1,4 @@
-# Peek::Rblineconf
+# Peek::Rblineprof
 
 Peek into how much each line of your Rails application takes throughout a request.
 
@@ -7,11 +7,19 @@ Things this peek view provides:
 - Total time it takes to render individual lines within your codebase
 - Total network time spent waiting per line
 
+You can also drill down to only certain parts of your codebase like:
+
+- app, everything within `Rails.root/(app|lib)`
+- views, everything within `Rails.root/app/view`
+- gems, everything within `Rails.root/vendor/gems`
+- all, everything within `Rails.root`
+- stdlib
+
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'peek-rblineconf'
+    gem 'peek-rblineprof'
 
 And then execute:
 
@@ -19,7 +27,7 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install peek-rblineconf
+    $ gem install peek-rblineprof
 
 ## Usage
 
