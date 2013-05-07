@@ -15,6 +15,8 @@ You can also drill down to only certain parts of your codebase like:
 - all, everything within `Rails.root`
 - stdlib
 
+![screen shot 2013-05-06 at 5 08 45 pm](https://f.cloud.github.com/assets/79995/468966/500eb60a-b6aa-11e2-9792-b0d90c0d703d.png)
+
 ## Installation
 
 Add this line to your application's Gemfile:
