@@ -1,3 +1,4 @@
+require 'peek/views/view'
 require 'rblineprof'
 
 module Peek
