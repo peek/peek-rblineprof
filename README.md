@@ -78,8 +78,8 @@ That's it! Now your code will look :sparkles:
 
 ## Contributors
 
-- [@tmm1](https://github.com/tmm1) wrote rblineprof
-- [@dewski](https://github.com/dewski) wrote peek-rblineprof
+- [@tmm1](https://github.com/tmm1) for [rblineprof](https://github.com/tmm1/rblineprof)
+- [@dewski](https://github.com/dewski) for this
 
 ## Contributing
 
