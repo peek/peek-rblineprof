@@ -4,6 +4,8 @@ rescue LoadError
   # Doesn't have pygments.rb installed
 end
 
+require 'rack/utils'
+
 module Peek
   module Rblineprof
     module ControllerHelpers
@@ -23,7 +25,7 @@ module Peek
         if pygmentize? && lexer.present?
           Pygments.highlight(code, :lexer => lexer_for_filename(file_name))
         else
-          code
+          "<pre>#{Rack::Utils.escape_html(code)}</pre>"
         end
       end
 
