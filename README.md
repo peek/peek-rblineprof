@@ -1,6 +1,6 @@
 # Peek::Rblineprof
 
-Peek into how much each line of your Rails application takes throughout a request.
+Peek into how much time each line of your Rails application takes throughout a request.
 
 Things this peek view provides:
 
