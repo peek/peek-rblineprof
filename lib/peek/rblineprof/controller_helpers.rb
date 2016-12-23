@@ -12,7 +12,7 @@ module Peek
       extend ActiveSupport::Concern
 
       included do
-        around_filter :inject_rblineprof, :if => [:peek_enabled?, :rblineprof_enabled?]
+        around_action :inject_rblineprof, :if => [:peek_enabled?, :rblineprof_enabled?]
       end
 
       protected
