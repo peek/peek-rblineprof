@@ -1,10 +1,10 @@
 <%= link_to 'Profile', :lineprofiler => true %>
 <div class="peek-dropdown">
   <ul>
-    <li><%= link_to 'app', params.merge(:lineprofiler => 'app') %></li>
-    <li><%= link_to 'views', params.merge(:lineprofiler => 'views') %></li>
-    <li><%= link_to 'gems', params.merge(:lineprofiler => 'gems') %></li>
-    <li><%= link_to 'all', params.merge(:lineprofiler => 'all') %></li>
-    <li><%= link_to 'stdlib', params.merge(:lineprofiler => 'stdlib') %></li>
+    <li><%= link_to 'app', url_for(:lineprofiler => 'app') %></li>
+    <li><%= link_to 'views', url_for(:lineprofiler => 'views') %></li>
+    <li><%= link_to 'gems', url_for(:lineprofiler => 'gems') %></li>
+    <li><%= link_to 'all', url_for(:lineprofiler => 'all') %></li>
+    <li><%= link_to 'stdlib', url_for(:lineprofiler => 'stdlib') %></li>
   </ul>
 </div>
