@@ -122,7 +122,7 @@ module Peek
               end
             end
             output << "<pre class='duration'>#{times.join("\n")}</pre>"
-            output << "<div class='code'>#{pygmentize(file_name, code.join, 'ruby')}</div>"
+            output << "<pre class='code highlight'>#{pygmentize(file_name, code.join, 'ruby')}</pre>"
             output << "</div></div>" # .data then .peek-rblineprof-file
           end
 
